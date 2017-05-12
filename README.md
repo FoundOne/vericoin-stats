@@ -1,1 +1,1 @@
-# vericoin-stats
+# verium-stats
