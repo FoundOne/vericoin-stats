@@ -1,0 +1,7 @@
+{
+	"host": "localhost",
+	"user": "user",
+	"pass": "password",
+	"port": "33987",
+	"timeout": 10000
+}
