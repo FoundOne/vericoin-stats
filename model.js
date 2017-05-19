@@ -3,7 +3,10 @@ var conf = require('./config.json');
 var bitcoin = require('bitcoin');
 var WebSocket = require('ws');
 
-var wss = new WebSocket.Server({ port: 8080 });
+var wss = new WebSocket.Server({
+  port: 8080,
+  perMessageDeflate: false
+});
 
 wss.broadcast = (data) => {
   wss.clients.forEach((client) => {

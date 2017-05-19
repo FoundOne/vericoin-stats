@@ -9,4 +9,8 @@ router.get('/', (req, res, next) => {
   });
 });
 
+router.get('/stats.json', (req, res, next) => {
+  res.json(req.app.locals.db);
+});
+
 module.exports = router;
