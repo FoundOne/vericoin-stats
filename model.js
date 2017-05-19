@@ -79,7 +79,7 @@ let getInfo = () => {
 };
 
 var db = (req, res, next) => {
-  req.db = stats;
+  req.app.locals.db = stats;
   next();
 }
 

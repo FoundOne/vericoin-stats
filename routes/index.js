@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', (req, res, next) => {
   res.render('index', {
     title: 'Verium Stats',
-    stats: req.db
+    stats: req.app.locals.db
   });
 });
 

@@ -1,8 +1,9 @@
 extends layout
 
 block content
+  script(src='/javascripts/client.js')
   h1= title
-  div Welcome to #{title}
+  div
     ul
       - for (stat in stats)
         li(id= stat)= stat + ': ' + stats[stat]

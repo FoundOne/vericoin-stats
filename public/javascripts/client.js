@@ -1,5 +1,5 @@
 // client.js
-document.addEventListener("DOMContentLoaded", () => {
+function wsClient() {
   var ws = new WebSocket("ws://127.0.0.1:8080/");
 
   ws.onmessage = (event) => {
@@ -13,5 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   };
-
-});
+  ws.onclose= () => {
+    console.log("Socket closed");
+    setTimeout(wsClient, 10000);
+  };
+}
+document.addEventListener("DOMContentLoaded", wsClient);
