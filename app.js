@@ -6,13 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var model = require('./model.js');
 
-// RAM Database
-// var db = {
-//   "stat1": 1,
-//   "stat2": 2,
-//   "stat3": 3
-// };
-
 var index = require('./routes/index');
 
 var app = express();
