@@ -10,9 +10,6 @@ router.get('/', (req, res, next) => {
   res.sendFile("index.html", {root: "./"});
 });
 
-router.get('/package.json', (req, res, next) => {
-  res.sendFile("./package.json", {root: "./"});
-})
 router.get('/stats.json', (req, res, next) => {
   res.json(req.app.locals.db);
 });
