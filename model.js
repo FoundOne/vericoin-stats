@@ -59,6 +59,27 @@ let getInfo = () => {
           if (stats[MiningMap[stat]] != info[stat]){
             if (Object.keys(stats).length == Object.keys(MiningMap).length + 1) {
               json[MiningMap[stat]] = info[stat];
+              if (stat == "blocks"){
+                client.cmd("getblockbynumber", info[stat], (err, block) => {
+                 // console.log(block);
+                 let block_data = {
+                  "height": block.height,
+                  "age": block.time,
+                  "size": block.size,
+                  "transactions": block.tx.length,
+                  "sent": block.mint
+                 };
+                 console.log({ "block_data": block_data });
+                 wss.broadcast({ "block_data": block_data });
+                 if (stats["block_data"] === undefined) {
+                   stats["block_data"] = [];
+                 }
+                 stats["block_data"].push(block_data);
+                 if (stats["block_data"].length > 10) {
+                   stats["block_data"].shift();
+                 }
+                });
+              }
             }
             stats[MiningMap[stat]] = info[stat];
           }
@@ -69,7 +90,7 @@ let getInfo = () => {
 
   })
   .then((json) => {
-    // console.log(stats);
+    console.log(stats);
     if (Object.keys(json).length !== 0) {
       wss.broadcast(json);
       // console.log(json);
