@@ -57,7 +57,7 @@ let getInfo = () => {
         }
         for (stat in MiningMap) {
           if (stats[MiningMap[stat]] != info[stat]){
-            if (Object.keys(stats).length == Object.keys(MiningMap).length + 1) {
+            if (Object.keys(stats).length >= Object.keys(MiningMap).length + 1) {
               json[MiningMap[stat]] = info[stat];
               if (stat == "blocks"){
                 client.cmd("getblockbynumber", info[stat], (err, block) => {
