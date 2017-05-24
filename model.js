@@ -90,7 +90,7 @@ let getInfo = () => {
 
   })
   .then((json) => {
-    console.log(stats);
+    // console.log(stats);
     if (Object.keys(json).length !== 0) {
       wss.broadcast(json);
       // console.log(json);
