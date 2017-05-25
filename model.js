@@ -75,10 +75,21 @@ let getInfo = () => {
                    stats["block_data"] = [];
                  }
                  stats["block_data"].push(block_data);
-                 if (stats["block_data"].length > 10) {
+                 if (stats["block_data"].length > 12) {
                    stats["block_data"].shift();
                  }
                 });
+              }
+              if (stat == "nethashrate (kH/m)") {
+                if (stats["netahashrate_log"] === undefined) {
+                 stats["netahashrate_log"] = [];
+                }
+                console.log({ "netahashrate_log": info["nethashrate (kH/m)"] });
+                wss.broadcast({ "netahashrate_log": info["nethashrate (kH/m)"] });
+                stats["netahashrate_log"].push(info["nethashrate (kH/m)"]);
+                if (stats["netahashrate_log"].length > 12) {
+                   stats["netahashrate_log"].shift();
+                }
               }
             }
             stats[MiningMap[stat]] = info[stat];
