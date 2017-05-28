@@ -6,7 +6,7 @@ function wsClient() {
     console.log(event.data);
     let stats = JSON.parse(event.data);
     for (stat in stats) {
-      if (stat != "error"){
+      if (stat != "error" && stat != "nethashrate_log" && stat != "blocktime_log" && stat != "block_data"){
         dom_stat = document.getElementById(stat);
         new_stat = document.createTextNode(stat + ": " + stats[stat]);
         dom_stat.replaceChild(new_stat, dom_stat.firstChild);

@@ -1,9 +1,10 @@
 extends layout
 
 block content
-  script(src='/javascripts/client.js')
+  script(src='/static/js/client.js')
   h1= title
   div
     ul
       - for (stat in stats)
-        li(id= stat)= stat + ': ' + stats[stat]
+        if stat != "error" && stat != "netahashrate_log" && stat != blocktime_log && stat != "block_data"
+          li(id= stat)= stat + ': ' + stats[stat]
