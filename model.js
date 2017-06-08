@@ -1,7 +1,11 @@
 // model.js
+'use strict';
 var conf = require('./config.json');
 var bitcoin = require('bitcoin');
 var WebSocket = require('ws');
+
+var geoip2 = require("geoip2");
+geoip2.init();
 
 var wss = new WebSocket.Server({
   port: 8080,
@@ -55,6 +59,7 @@ let getInfo = () => {
           resolve({"error": err });
           return;
         }
+        let stat = 0;
         for (stat in MiningMap) {
           if (stats[MiningMap[stat]] != info[stat]){
             if (Object.keys(stats).length >= Object.keys(MiningMap).length + 1) {
@@ -73,7 +78,7 @@ let getInfo = () => {
                 "transactions": block.tx.length,
                 "sent": block.mint
                };
-               console.log({ "block_data": block_data });
+               // console.log({ "block_data": block_data });
                wss.broadcast({ "block_data": block_data });
                if (stats["block_data"] === undefined) {
                  stats["block_data"] = [];
@@ -90,7 +95,7 @@ let getInfo = () => {
               if (stats["netahashrate_log"] === undefined) {
                stats["netahashrate_log"] = [];
               }
-              console.log({ "netahashrate_log": info["nethashrate (kH/m)"] });
+              // console.log({ "netahashrate_log": info["nethashrate (kH/m)"] });
               wss.broadcast({ "netahashrate_log": info["nethashrate (kH/m)"] });
               stats["netahashrate_log"].push(info["nethashrate (kH/m)"]);
               if (stats["netahashrate_log"].length > 12) {
@@ -103,7 +108,7 @@ let getInfo = () => {
               if (stats["blocktime_log"] === undefined) {
                stats["blocktime_log"] = [];
               }
-              console.log({ "blocktime_log": info["blocktime (min)"] });
+              // console.log({ "blocktime_log": info["blocktime (min)"] });
               wss.broadcast({ "blocktime_log": info["blocktime (min)"] });
               stats["blocktime_log"].push(info["blocktime (min)"]);
               if (stats["blocktime_log"].length > 12) {
@@ -130,10 +135,44 @@ let getInfo = () => {
   });
 };
 
+// geoip lookup
+let ips = new Object();
+let loc_numbers = new Object();
+let geoLocate = () => {
+    client.cmd("getpeerinfo", (err, peers) => {
+     //console.log(peers);
+     let no = 0;
+     for (no in peers){
+      let ip = peers[no].addr.substr(0, peers[no].addr.length - 6);
+      if (ips[ip] === undefined) {
+        // console.log(ip);
+        geoip2.lookupSimple(ip, (error, result) => {
+          if (error){
+            return;
+          }
+          // console.log(result.country);
+          if(loc_numbers[result.country] === undefined){
+            loc_numbers[result.country] = 0;
+          }
+          loc_numbers[result.country] += 1;
+          wss.broadcast({"inc_country": result.country})
+        });
+        // console.log(JSON.stringify(loc_numbers));
+      }
+      ips[ip] = Date.now();
+     }
+    });
+    setTimeout(geoLocate, 5000);
+}
+ 
+// express middleware
 var db = (req, res, next) => {
   req.app.locals.db = stats;
+  req.app.locals.loc_num = loc_numbers;
   next();
 }
 
 exports.db = db;
+exports.loc_numbers = loc_numbers;
 exports.getInfo = getInfo;
+exports.geoLocate = geoLocate;

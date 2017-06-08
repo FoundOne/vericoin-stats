@@ -21,4 +21,8 @@ router.get('/stats.json', (req, res, next) => {
   res.json(req.app.locals.db);
 });
 
+router.get('/loc_num.json', (req, res, next) => {
+  res.json(req.app.locals.loc_num);
+});
+
 module.exports = router;
