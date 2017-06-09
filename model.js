@@ -145,6 +145,9 @@ let geoLocate = () => {
      for (no in peers){
       let ip = peers[no].addr.substr(0, peers[no].addr.length - 6);
       if (ips[ip] === undefined) {
+        ips[ip] = new Object();
+      }
+      if (ips[ip].timeStamp === undefined) {
         // console.log(ip);
         geoip2.lookupSimple(ip, (error, result) => {
           if (error){
@@ -155,18 +158,35 @@ let geoLocate = () => {
             loc_numbers[result.country] = 0;
           }
           loc_numbers[result.country] += 1;
+          ips[ip].country = result.country;
           wss.broadcast({"inc_country": result.country})
         });
         // console.log(JSON.stringify(loc_numbers));
       }
-      ips[ip] = Date.now();
+      ips[ip].timeStamp = Date.now();
      }
     });
     setTimeout(geoLocate, 5000);
 }
- 
+
+// jaintor
+let jaintor = () => {
+  for (let ip in ips) {
+    if(ips[ip].timeStamp < Date.now() - 86400000){
+      console.log(ip + " " + ips[ip].country + " creared");
+      if (ips[ip].country) {
+        loc_numbers[ips[ip].country] -= 1;
+        wss.broadcast({"dec_country": ips[ip].country})
+      }
+      delete ips[ip];
+    }
+  }
+  setTimeout(jaintor, 3600000); // Do it hourly.
+}
+
 // express middleware
 var db = (req, res, next) => {
+  // jaintor();
   req.app.locals.db = stats;
   req.app.locals.loc_num = loc_numbers;
   next();
@@ -176,3 +196,4 @@ exports.db = db;
 exports.loc_numbers = loc_numbers;
 exports.getInfo = getInfo;
 exports.geoLocate = geoLocate;
+exports.jaintor = jaintor;
