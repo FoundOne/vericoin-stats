@@ -150,7 +150,7 @@ let geoLocate = () => {
       if (ips[ip].timeStamp === undefined) {
         // console.log(ip);
         geoip2.lookupSimple(ip, (error, result) => {
-          if (error){
+          if (error || result === null){
             return;
           }
           // console.log(result.country);
@@ -170,7 +170,7 @@ let geoLocate = () => {
 }
 
 // jaintor
-let jaintor = () => {
+let janitor = () => {
   for (let ip in ips) {
     if(ips[ip].timeStamp < Date.now() - 86400000){
       console.log(ip + " " + ips[ip].country + " creared");
