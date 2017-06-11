@@ -169,7 +169,7 @@ let geoLocate = () => {
     setTimeout(geoLocate, 5000);
 }
 
-// jaintor
+// janitor
 let janitor = () => {
   for (let ip in ips) {
     if(ips[ip].timeStamp < Date.now() - 86400000){
@@ -181,12 +181,12 @@ let janitor = () => {
       delete ips[ip];
     }
   }
-  setTimeout(jaintor, 3600000); // Do it hourly.
+  setTimeout(janitor, 3600000); // Do it hourly.
 }
 
 // express middleware
 var db = (req, res, next) => {
-  // jaintor();
+  // janitor();
   req.app.locals.db = stats;
   req.app.locals.loc_num = loc_numbers;
   next();
@@ -196,4 +196,4 @@ exports.db = db;
 exports.loc_numbers = loc_numbers;
 exports.getInfo = getInfo;
 exports.geoLocate = geoLocate;
-exports.jaintor = jaintor;
+exports.janitor = janitor;

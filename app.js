@@ -13,7 +13,7 @@ var app = express();
 // the database middleware
 model.getInfo();
 model.geoLocate();
-model.jaintor();
+model.janitor();
 app.use(model.db);
 
 // view engine setup
