@@ -78,9 +78,9 @@ It's just a partal of the stat.json.
 - type Object
 - inner object properties:
  * keys
-        - inc_country: request to increment the number of peers on that country
-        - dec_country: request to decrement the number of peers on that country
+     - inc_country: request to increment the number of peers on that country
+     - dec_country: request to decrement the number of peers on that country
  * value
-  - country abbreviation
-     * type: String
-     * size: 2
+    - country abbreviation
+      * type: String
+      * size: 2
