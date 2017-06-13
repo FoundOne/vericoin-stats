@@ -1,5 +1,5 @@
 # API
-The API is made of thwo things:
+The API is made of two things:
 - a JSON file which is showing all the data at the current time - used for bootstraping.
 - an web socket which gives changes in real time.
 ## Base Stats
