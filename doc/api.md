@@ -68,13 +68,13 @@ It's just a partal of the stat.json.
 ### Data Structure
 - type Array(Object)
 - inner object properties:
- * country abbreviation (key)
-    - type String
-    - size 2
- * number of clients from that country (value)
-    - type Number (integer)
+   * country abbreviation (key)
+      - type: String
+      - size: 2
+   * number of clients from that country (value)
+      - type: Number (integer)
 
-### Websocket
+### Web Socket
 - type Object
 - inner object properties:
  * keys
