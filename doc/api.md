@@ -1,46 +1,46 @@
-#API
+# API
 The API is made of thwo things:
 - a JSON file which is showing all the data at the current time - used for bootstraping.
 - an web socket which gives changes in real time.
-##Base Stats
-###JSON path
+## Base Stats
+### JSON path
 /stats.json
-###Data Structure
-####totalsupply
+### Data Structure
+#### totalsupply
 Total supply of Verium.
 - type: Number (float)
 
-####difficulty
+#### difficulty
 Mining difficulty.
 - type: Number (float)
 
-####blocks
+#### blocks
 Number of blocks
 - type: Number (integer)
 
-####blocktime
+#### blocktime
 Current block time.
 - type: Number (float)
 
-####blockreward
+#### blockreward
 The vrm that you will be rewarded for finding the next block.
 - type: Number (float)
 
-####nethashrate
+#### nethashrate
 The hash rate of the network in kH/m
 - type: Number (float)
 
-####blocktime_log
+#### blocktime_log
 Record of the blocktime of the last 12 blocks.
 - type Array(Number)
 - limit 12
 
-####nethashrate_log
+#### nethashrate_log
 Record of the last 12 hash rate changes.
 - type Array(Number)
 - limit 12
 
-####blockdata
+#### blockdata
 Record of the last 12 blocks.
 
 - type Array(Object)
@@ -57,15 +57,15 @@ Record of the last 12 blocks.
  * sent: vrm sent in that block
      - type: Number (float)
 
-###Web Socket
+### Web Socket
 It's just a partal of the stat.json.
 - Every property that is not array should just replace the old one.
 - Every property that is an array should be pushed in a FIFO manner.
 
-##Location numbers
-###JSON Path
+## Location numbers
+### JSON Path
 /loc_num.json
-###Data Structure
+### Data Structure
 - type Array(Object)
 - inner object properties:
  * country abbreviation (key)
@@ -74,7 +74,7 @@ It's just a partal of the stat.json.
  * number of clients from that country (value)
   - type Number (integer)
 
-###Websocket
+### Websocket
 - type Object
 - inner object properties:
  * keys
