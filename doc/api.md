@@ -69,10 +69,10 @@ It's just a partal of the stat.json.
 - type Array(Object)
 - inner object properties:
  * country abbreviation (key)
-  - type String
-  - size 2
+    - type String
+    - size 2
  * number of clients from that country (value)
-  - type Number (integer)
+    - type Number (integer)
 
 ### Websocket
 - type Object
