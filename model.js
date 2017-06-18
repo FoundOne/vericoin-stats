@@ -36,6 +36,7 @@ let MiningMap = {
   "nethashrate (kH/m)": "nethashrate"
 };
 
+
 let getInfo = () => {
   new Promise((resolve, reject) => {
     client.getInfo((err, info) => {
@@ -45,6 +46,7 @@ let getInfo = () => {
         resolve({"error": err });
         return;
       }
+      
       if (stats.totalsupply != info.totalsupply){
         if (Object.keys(stats).length !== 0) {
           json["totalsupply"] = stats.totalsupply;
@@ -88,32 +90,30 @@ let getInfo = () => {
                  stats["block_data"].shift();
                }
               });
-            }
-            
-            // nethashrate_log
-            if (stat == "nethashrate (kH/m)") {
+              
+              // nethashrate_log
               if (stats["netahashrate_log"] === undefined) {
                stats["netahashrate_log"] = [];
               }
               // console.log({ "netahashrate_log": info["nethashrate (kH/m)"] });
-              wss.broadcast({ "netahashrate_log": info["nethashrate (kH/m)"] });
               stats["netahashrate_log"].push(info["nethashrate (kH/m)"]);
               if (stats["netahashrate_log"].length > 12) {
                  stats["netahashrate_log"].shift();
               }
-            }
-            
-            // blocktime_log
-            if (stat == "blocktime (min)") {
+
+              // blocktime_log
               if (stats["blocktime_log"] === undefined) {
                stats["blocktime_log"] = [];
               }
               // console.log({ "blocktime_log": info["blocktime (min)"] });
-              wss.broadcast({ "blocktime_log": info["blocktime (min)"] });
               stats["blocktime_log"].push(info["blocktime (min)"]);
               if (stats["blocktime_log"].length > 12) {
                  stats["blocktime_log"].shift();
               }
+              wss.broadcast({ 
+              "netahashrate_log": info["nethashrate (kH/m)"],
+              "blocktime_log": info["blocktime (min)"]
+              });
             }
           }
         }
