@@ -150,7 +150,7 @@ let geoLocate = () => {
       if (ips[ip].timeStamp === undefined) {
         // console.log(ip);
         geoip2.lookupSimple(ip, (error, result) => {
-          if (error || result === null){
+          if (error || result === null || result === unidentified){
             return;
           }
           // console.log(result.country);
