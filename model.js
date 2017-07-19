@@ -73,21 +73,24 @@ let getInfo = () => {
             if (stat == "blocks"){
               client.cmd("getblockbynumber", info[stat], (err, block) => {
                // console.log(block);
-               let block_data = {
-                "height": block.height,
-                "age": block.time,
-                "size": block.size,
-                "transactions": block.tx.length,
-                "sent": block.mint
-               };
-               // console.log({ "block_data": block_data });
-               wss.broadcast({ "block_data": block_data });
-               if (stats["block_data"] === undefined) {
-                 stats["block_data"] = [];
-               }
-               stats["block_data"].push(block_data);
-               if (stats["block_data"].length > 12) {
-                 stats["block_data"].shift();
+               if (!err) {
+                   let block_data = {
+                    "height": block.height,
+                    "age": block.time,
+                    "size": block.size,
+                    "transactions": block.tx.length,
+                    "sent": block.mint
+                   };
+               
+                   // console.log({ "block_data": block_data });
+                   wss.broadcast({ "block_data": block_data });
+                   if (stats["block_data"] === undefined) {
+                     stats["block_data"] = [];
+                   }
+                   stats["block_data"].push(block_data);
+                   if (stats["block_data"].length > 12) {
+                     stats["block_data"].shift();
+                   }
                }
               });
               
@@ -150,7 +153,7 @@ let geoLocate = () => {
       if (ips[ip].timeStamp === undefined) {
         // console.log(ip);
         geoip2.lookupSimple(ip, (error, result) => {
-          if (error || result === null || result === 'unidentified'){
+          if (error || result === null || result === undefined){
             return;
           }
           // console.log(result.country);
